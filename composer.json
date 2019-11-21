@@ -1,0 +1,23 @@
+{
+    "name": "slavicd/connectum-payments-php",
+    "description": "PHP wrapper for Connectum payment gateway",
+    "type": "library",
+    "require": {
+        "guzzlehttp/guzzle": "~6.0"
+    },
+    "authors": [
+        {
+            "name": "Slavic Dragovtev",
+            "email": "slavic@entropi.me"
+        }
+    ],
+    "require-dev": {
+        "phpunit/phpunit": "^8.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Entropi\\Connectum\\": "src/",
+            "Entropi\\Connectum\\Test\\": "tests"
+        }
+    }
+}
