@@ -21,7 +21,7 @@ class Service
      */
     private $httpClient;
 
-    public function __construct($username, $password, $sslKeyPath, $sslKeyPassword, $production=false)
+    public function __construct($username, $password, $sslKeyPath, $sslKeyPassword, $sandbox=true)
     {
         $this->username = $username;
         $this->password = $password;
@@ -29,7 +29,7 @@ class Service
         $this->sslKeyPassword = $sslKeyPassword;
 
         $this->httpClient = new Client([
-            'base_uri' => $production ? self::PRODUCTION_URL : self::SANDBOX_URL,
+            'base_uri' => $sandbox ? self::SANDBOX_URL : self::PRODUCTION_URL,
             'allow_redirects' => false,
             'cert' => [$this->sslKeyPath, $this->sslKeyPassword],
             //'debug' => true,
