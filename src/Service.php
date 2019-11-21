@@ -90,18 +90,18 @@ class Service
         return json_decode($httpResp->getBody());
     }
 
-    public function cancel($orderId, $amount=null)
+    /**
+     * @param \stdClass $order
+     * @return \stdClass
+     */
+    public function cancel($order)
     {
-        $data = [];
-
-        if (!is_null($amount) && $amount>0) {
-            $data['amount'] = $amount;
-        }
-
-        $httpResp = $this->httpClient->put('orders/' . $orderId . '/cancel', [
-            'json' => $data,
+        $httpResp = $this->httpClient->put('orders/' . $order->id . '/cancel', [
+            'json' => [
+                'amount' => $order->amount,
+            ],
         ]);
 
-        return json_decode($httpResp);
+        return json_decode($httpResp->getBody());
     }
 }

@@ -79,31 +79,42 @@ class MainTest extends TestCase
         ]);
 
         $this->assertIsObject($resp);
-        return $resp;
+        return $resp->orders[0];
     }
 
     /**
      * @depends testAuthorize
-     * @param \stdClass $authResponse
+     * @param \stdClass $order
+     * @return \stdClass
      */
-    public function testCharge($authResponse)
+    public function testCharge($order)
     {
-        $order = $authResponse->orders[0];
         $this->assertEquals('authorized', $order->status);
         $resp = $this->service->charge($order->id, (float) $order->amount);
         $this->assertIsObject($resp);
         $this->assertEquals('charged', $resp->orders[0]->status);
-        //var_dump($resp);
+
+        return $resp->orders[0];
     }
 
     /**
-     * @depends testAuthorize
-     * @param \stdClass $authResponse
+     * @depends testCharge
+     * @param \stdClass $order
      */
-    public function testCancel($authResponse)
+    public function testCancelCharged($order)
     {
-        $order = $authResponse->orders[0];
-        $resp = $this->service->cancel($order->id);
+        $resp = $this->service->cancel($order);
+        $this->assertIsObject($resp);
+        $this->assertContains($resp->orders[0]->status, ['refunded', 'reversed']);
+    }
+
+    /**
+     * @param \stdClass $order
+     */
+    public function testCancelAuthorized()
+    {
+        $order = $this->testAuthorize();
+        $resp = $this->service->cancel($order);
         $this->assertIsObject($resp);
         $this->assertContains($resp->orders[0]->status, ['refunded', 'reversed']);
     }
