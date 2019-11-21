@@ -118,4 +118,13 @@ class MainTest extends TestCase
         $this->assertIsObject($resp);
         $this->assertContains($resp->orders[0]->status, ['refunded', 'reversed']);
     }
+
+    /**
+     * @depends testAuthorize
+     */
+    public function testFetchOrder($order)
+    {
+        $resp = $this->service->getOrder($order->id);
+        $this->assertIsObject($resp);
+    }
 }

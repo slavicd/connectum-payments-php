@@ -104,4 +104,14 @@ class Service
 
         return json_decode($httpResp->getBody());
     }
+
+    /**
+     * @param string $id
+     * @return \stdClass
+     */
+    public function getOrder($id)
+    {
+        $httpResp = $this->httpClient->get('orders/' . $id);
+        return json_decode($httpResp->getBody());
+    }
 }

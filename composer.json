@@ -3,6 +3,7 @@
     "description": "PHP wrapper for Connectum payment gateway",
     "type": "library",
     "require": {
+        "ext-json": "*",
         "guzzlehttp/guzzle": "~6.0"
     },
     "authors": [
