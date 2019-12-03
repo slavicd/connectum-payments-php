@@ -9,7 +9,7 @@ use GuzzleHttp\Exception\ServerException;
 class Service
 {
     const SANDBOX_URL = 'https://api.sandbox.connectum.eu';
-    const PRODUCTION_URL = 'https://api.sandbox.connectum.eu';
+    const PRODUCTION_URL = 'https://api.connectum.eu';
 
     private $username;
     private $password;
