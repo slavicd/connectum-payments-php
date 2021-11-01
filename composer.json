@@ -4,12 +4,12 @@
     "type": "library",
     "require": {
         "ext-json": "*",
-        "guzzlehttp/guzzle": "~6.0"
+        "guzzlehttp/guzzle": "~6.0 || ~7.0"
     },
     "authors": [
         {
             "name": "Slavic Dragovtev",
-            "email": "slavic@entropi.me"
+            "email": "slavic@entropi.dev"
         }
     ],
     "require-dev": {

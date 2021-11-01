@@ -21,15 +21,42 @@ class Service
      */
     private $httpClient;
 
-    public function __construct($username, $password, $sslKeyPath, $sslKeyPassword, $sandbox=true)
-    {
+    /**
+     * Service constructor.
+     * @param string $username
+     * @param string $password
+     * @param string $sslKeyPath
+     * @param string $sslKeyPassword
+     * @param string $apiUrl can be a URL or "sandbox"/"production" for Connectum default URLs
+     */
+    public function __construct(
+        $username,
+        $password,
+        $sslKeyPath,
+        $sslKeyPassword,
+        $apiUrl=null
+    ) {
         $this->username = $username;
         $this->password = $password;
         $this->sslKeyPath = $sslKeyPath;
         $this->sslKeyPassword = $sslKeyPassword;
 
+        if (!is_null($apiUrl)) {
+            $baseUri = $apiUrl;
+        } else {
+            $baseUri = self::SANDBOX_URL;
+        }
+
+        if ($baseUri==='production') {
+            $baseUri = self::PRODUCTION_URL;
+        }
+
+        if ($baseUri=='sandbox') {
+            $baseUri=self::SANDBOX_URL;
+        }
+
         $this->httpClient = new Client([
-            'base_uri' => $sandbox ? self::SANDBOX_URL : self::PRODUCTION_URL,
+            'base_uri' => $baseUri,
             'allow_redirects' => false,
             'cert' => [$this->sslKeyPath, $this->sslKeyPassword],
             //'debug' => true,
