@@ -7,7 +7,7 @@ use GuzzleHttp\Exception\ConnectException;
 use PHPUnit\Framework\TestCase;
 use Entropi\Connectum\Service;
 
-class MainTest extends TestCase
+class WallettoTest extends TestCase
 {
     const CARD_NR_SUCCESS = '4111111111111111';
 
@@ -21,8 +21,14 @@ class MainTest extends TestCase
         parent::__construct($name, $data, $dataName);
 
         $config = require dirname(__FILE__) . '/configs/config.php';
-        $config = $config['connectum'];
-        $this->service = new Service($config['username'], $config['password'], $config['ssl_key_path'], $config['ssl_key_password']);
+        $config = $config['walletto'];
+        $this->service = new Service(
+            $config['username'],
+            $config['password'],
+            $config['ssl_key_path'],
+            $config['ssl_key_password'],
+            'https://api.sandbox.walletto.eu'
+        );
 
     }
 
@@ -59,29 +65,29 @@ class MainTest extends TestCase
         $this->assertIsString($resp->redirect);
     }
 
-    public function testAuthorize()
-    {
-        $resp = $this->service->authorize([
-            'amount' => rand(1, 10),
-            'currency' => 'USD',
-            'pan' => self::CARD_NR_SUCCESS,
-            'card' => [
-                'cvv' => '123',
-                'holder' => 'John Smith',
-                'expiration_month' => '06',
-                'expiration_year' => '2022',
-            ],
-            'location' => [
-                'ip' => '8.8.8.8',
-            ],
-            'client' => [
-                'email' => 'johny023@example.com',
-            ]
-        ]);
-
-        $this->assertIsObject($resp);
-        return $resp->orders[0];
-    }
+//    public function testAuthorize()
+//    {
+//        $resp = $this->service->authorize([
+//            'amount' => rand(1, 10),
+//            'currency' => 'USD',
+//            'pan' => self::CARD_NR_SUCCESS,
+//            'card' => [
+//                'cvv' => '123',
+//                'holder' => 'John Smith',
+//                'expiration_month' => '06',
+//                'expiration_year' => '2022',
+//            ],
+//            'location' => [
+//                'ip' => '8.8.8.8',
+//            ],
+//            'client' => [
+//                'email' => 'johny023@example.com',
+//            ]
+//        ]);
+//
+//        $this->assertIsObject($resp);
+//        return $resp->orders[0];
+//    }
 
     /**
      * @depends testAuthorize
